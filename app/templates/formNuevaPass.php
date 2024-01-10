@@ -8,7 +8,7 @@
 <form name="formNuevaPass" action="index.php?ctl=NuevaPass" method="POST" class="d-flex justify-content-center">
     <div id="form">
         <div id="title" class="d-flex justify-content-center">
-            <h2>Nuevo Usuario</h2>
+            <h2>Establecer Contraseña</h2>
         </div>
 
         <div class="row">

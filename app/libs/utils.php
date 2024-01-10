@@ -120,7 +120,7 @@ function cNombre(string $text, string $campo, array &$errores, int $max = 50, in
      if ((preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@¿?¡!_-]).{" . $min . "," . $max . "}/", $pass))) {
          return true;
      }
-     $errores[$campo] = "La contraseña no cumple con los criterios de seguridad";
+     $errores[$campo] = "La contraseña no cumple con los criterios de seguridad a de contener de 8 a 20 caracteres incluyendo mayúsculas, minúsculas, números y caracteres especiales($@¿?¡!_-)";
      return false;
  }
  function cReppass(string $reppass, string $campo, string $pass, array &$errores): bool

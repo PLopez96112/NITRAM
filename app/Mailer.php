@@ -59,9 +59,9 @@ try {
     //Asunto
     $mail->Subject = 'Bienbenido a Nitrama';
     //Contenido HTML
-    $mail->Body    = 'Has click en el <a href="http://127.0.0.1/NITRAM/index.php?ctl=NuevaPass&Token='.$token.'">link</a> Para indicar su contraseña';
+    $mail->Body    = 'Haz clic en el <a href="https://nitramsd.azurewebsites.net/WEB/index.php?ctl=NuevaPass&Token='.$token.'">link</a> para indicar su contraseña.';
     //Contenido alternativo en texto simple
-    $mail->AltBody = 'Click on the next link to confirm your account: http://127.0.0.1/NITRAM/index.php?ctl=NuevaPass&Token='.$token;
+    $mail->AltBody = 'Haz clic en el para indicar su contraseña : https://nitramsd.azurewebsites.net/WEB/NITRAM/index.php?ctl=NuevaPass&Token='.$token;
     //Enviar correo
     $mail->send();
 

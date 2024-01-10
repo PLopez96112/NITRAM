@@ -188,7 +188,7 @@ function cTexto(string $text, string $campo, array &$errores, int $max = 30, int
      if ((preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@¿?¡!_-]).{" . $min . "," . $max . "}/", $pass))) {
          return true;
      }
-     $errores[$campo] = "Error en el campo $campo";
+     $errores[$campo] = "La  Contraseña no cumple los criterios de Seguridad, Debe tener Mayusculas, minusculas ";
      return false;
  }
  function creppass(string $reppass, string $campo, string $pass, array &$errores): bool

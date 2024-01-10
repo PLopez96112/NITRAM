@@ -10764,4 +10764,9 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }/*# sourceMappingURL=estilo.css.map */

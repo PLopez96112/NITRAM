@@ -18,11 +18,17 @@
 <?php echo $contenido ?>
 </div>
 
-<div id="pie">
-<hr/>
-<div align="center">Nitram</div>
-</div>
 
+<footer>
+<hr/>
+<div class="container">
+  <div class="row">
+    <div class="col">
+    <img src="img/Logo.png" class="img-fluid d-block mx-auto" alt="NITRM">
+    </div>
+  </div>
+</div>
+</footer>
 </body>
 </html>
 
