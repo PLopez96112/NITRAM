@@ -1,6 +1,0 @@
-SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'Estado' at row 10.16809700 1703604541
-SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'Estado' at row 10.64712200 1703604659
-SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tipo' in 'field list'0.32272100 1703687086
-SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tipo' cannot be null0.03486200 1703687126
-SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tipo' cannot be null0.51853600 1703687359
-SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tipo' cannot be null0.96957600 1703687450

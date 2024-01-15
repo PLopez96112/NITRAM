@@ -369,7 +369,7 @@ class Controller
 
             //validación de campos
             $m = new Model();
-            if(!($tipo=='INC' || $tipo=='SOL') ){
+            if (!($tipo == 'INC' || $tipo == 'SOL')) {
                 $error["tipo"] = "tipo inexistente";
             }
             if (!$m->CompruebaUsuarioID($solicitante)) {
@@ -407,10 +407,111 @@ class Controller
         require __DIR__ . '/templates/formNuevoTicket.php';
     }
 
+    public function BuscarTicket()
+    {
+        $m = new Model();
+        $grupos = $m->Damegrupos();
+        $usuarios = $m->DameUsuarios();
+        $usuariosCU = $m->DameCU();
+        $Estados = $m->DameEstados();
+
+
+
+        $info = array(
+            'grupos' => $grupos,
+            'usuarios' => $usuarios,
+            'usuariosCU' => $usuariosCU,
+            'estados' => $Estados,
+            'F_actual' => date('Y-m-d H:i:s')
+        );
+
+        $campos = array();
+
+        if (isset($_POST['enviar'])) {
+
+            $tipo = recoge('tipo');
+            $prioridad = recoge('prioridad');
+            $F_apertura = $info['F_actual'];
+            $solicitante = recoge('solicitante');
+            $asignatario = recoge('asignatario');
+            $Grupo = recoge('Grupo');
+            $estado = 'EG';
+            $resumen = recoge('resumen');
+            $descripcion = recoge('descripcion');
+            $F_modificacion = $info['F_actual'];
+
+
+            $info = array(
+                'tipo' => $tipo,
+                'prioridad' => $prioridad,
+                'solicitante' => $solicitante,
+                'asignatario' => $asignatario,
+                'Grupo' => $Grupo,
+                'estado' => $estado,
+                'resumen' => $resumen,
+                'descripcion' => $descripcion,
+                'grupos' => $grupos,
+                'usuarios' => $usuarios,
+                'usuariosCU' => $usuariosCU,
+                'estados' => $Estados,
+                'F_actual' => date('Y-m-d H:i:s')
+            );
+
+
+
+            //validación de campos
+            $m = new Model();
+            if (($tipo == 'INC' || $tipo == 'SOL')) {
+                $campos["Tipo"] = $tipo;
+            }
+            /*
+            if (!$m->CompruebaUsuarioID($solicitante)) {
+                $error["solicitante"] = "Solicitante inexistente";
+            }
+            if (!$m->CompruebaGrupoID($Grupo)) {
+                $error["Grupo"] = "Grupo inexistente";
+            }
+            if (!($prioridad == 1 || $prioridad == 2 || $prioridad == 3 || $prioridad == 4)) {
+                $error["prioridad"] = "Prioridad Incorrecta";
+            }
+
+            cTexto($resumen, 'resumen', $error, 500, 1);
+            cTexto($descripcion, 'descripcion', $error, 2500, 1);
+            */
+
+            //inserción en BBDD
+
+
+            $m = new Model();
+            if(isset($campos["Tipo"])){
+                $condicion="Tipo = '".$campos["Tipo"]."'";
+            }
+            
+
+            
+            $_SESSION["tickets"] = $m->BuscarTickets($condicion);
 
 
 
 
+            header('Location: index.php?ctl=ListaTickets');
+
+        }
+        require __DIR__ . '/templates/formBusucarTicket.php';
+    }
+
+
+    public function ListaTickets()
+    {
+        if(isset($_SESSION["tickets"])){
+            $info['tickets'] = $_SESSION["tickets"];
+            //$info['tickets'] = 'Hola';
+        }else{
+            $info['tickets'] = 'adios';
+        }
+        
+        require __DIR__ . '/templates/listaTickets.php';
+    }
 
 
 

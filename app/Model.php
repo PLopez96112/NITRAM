@@ -85,6 +85,14 @@ class Model extends PDO
         $x = $result->fetchAll(PDO::FETCH_ASSOC);
         return $x[0];
     }
+
+    public function BuscarTickets($condicion)
+    {
+        $consulta = "SELECT * FROM tickets where $condicion";
+        $result = $this->conexion->query($consulta);
+        $x = $result->fetchAll(PDO::FETCH_ASSOC);
+        return $x;
+    }
     public function insertarToken($id_token, $id_user, $caducidad)
     {
         $consulta = "insert into tokens (Id, ID_Usuario,Caducidad) values (?,?,?)";

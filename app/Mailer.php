@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
+include_once('Config.php');
 
 
 function enviar_pass($user_email, $token){
@@ -21,8 +22,8 @@ try {
     $mail->SMTPAuth = true;    
  
 
-    $mail->Username = 'Suport.Nitram.es@gmail.com';             
-    $mail->Password = 'zpde vjxj sbvo lgll';    
+    $mail->Username = Config::$correo;      
+    $mail->Password = Config::$passC;    
     /*
     * Encriptación a usar ssl o tls, dependiendo cual usemos hay que utilizar uno u otro puerto
     */            
@@ -38,7 +39,7 @@ try {
     Receptores y remitente
     */
 //Remitente
-    $mail->setFrom('Suport.Nitram.es@gmail.com', 'Nitram');
+    $mail->setFrom(Config::$correo, 'Nitram');
 //Receptores. Podemos añadir más de uno. El segundo argumento es opcional, es el nombre
     $mail->addAddress($user_email);     //Add a recipient
     //$mail->addAddress('ejemplo@example.com'); 

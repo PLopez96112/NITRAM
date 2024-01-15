@@ -16,6 +16,8 @@ $map = array(
     'NuevoUsuario' => array('controller' =>'Controller', 'action' => 'NuevoUsuario'),
     'NuevoGrupo' => array('controller' =>'Controller', 'action' => 'NuevoGrupo'),
     'BuscarUsuario' => array('controller' =>'Controller', 'action' => 'BuscarUsuario'),
+    'BuscarTicket' => array('controller' =>'Controller', 'action' => 'BuscarTicket'),
+    'ListaTickets' => array('controller' =>'Controller', 'action' => 'ListaTickets'),
     'ModificarUsuario' => array('controller' =>'Controller', 'action' => 'ModificarUsuario'),
     'NuevoTicket' => array('controller' =>'Controller', 'action' => 'NuevoTicket'),    
     'dashboard_C' => array('controller' =>'Controller', 'action' => 'dashboard_C'),

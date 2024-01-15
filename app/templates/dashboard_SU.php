@@ -35,6 +35,7 @@ if ($_SESSION["Tipo"] != "SU") {
                         <li><a class="dropdown-item" href="index.php?ctl=NuevoGrupo">Crear nuevo grupo</a></li>
                         <li><a class="dropdown-item" href="index.php?ctl=BuscarUsuario">Modificar Usuario</a></li>
                         <li><a class="dropdown-item" href="index.php?ctl=NuevoTicket">Crear Ticket</a></li>
+                        <li><a class="dropdown-item" href="index.php?ctl=BuscarTicket">Buscar Ticket</a></li>
                     </ul>
                 </li>
             </ul>

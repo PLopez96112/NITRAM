@@ -17,18 +17,19 @@
 <div id="contenido">
 <?php echo $contenido ?>
 </div>
-
-
-<footer>
-<hr/>
-<div class="container">
-  <div class="row">
-    <div class="col">
-    <img src="img/Logo.png" class="img-fluid d-block mx-auto" alt="NITRM">
+<footer class="bg-light text-center text-lg-start">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+      <img src="img/Logo.png" class="img-fluid d-block mx-auto" alt="NITRAM">
+      </div>
     </div>
   </div>
-</div>
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2023 NITRAM, Inc
+  </div>
 </footer>
+
 </body>
 </html>
 
