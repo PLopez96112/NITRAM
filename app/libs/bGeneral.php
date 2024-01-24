@@ -150,7 +150,7 @@ function cTexto(string $text, string $campo, array &$errores, int $max = 30, int
 {
     $case = ($case === TRUE) ? "i" : "";
     $espacios = ($espacios === TRUE) ? " " : "";
-    if ((preg_match("/^[a-zñ$espacios]{" . $min . "," . $max . "}$/u$case", sinTildes($text)))) {
+    if ((preg_match("/^[a-z0-9%ñ$espacios]{" . $min . "," . $max . "}$/u$case", sinTildes($text)))) {
         return true;
     }
     $errores[$campo] = "Error en el campo $campo";

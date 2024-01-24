@@ -72,9 +72,13 @@ if ($_SESSION["Tipo"] != "C") {
         </div>
     </div>
 </nav>
-<div class="alert alert-info" role="alert">
-    Hola Querido Cliente
-</div>
+<?php 
+if(isset($_SESSION["aviso"]) && !($_SESSION["aviso"]=="")){
+    echo '<div class="alert alert-info" role="alert">';
+    echo $_SESSION["aviso"];
+    echo'</div>';
+}
+?>
 
 
 

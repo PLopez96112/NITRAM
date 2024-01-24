@@ -1,14 +1,5 @@
 <?php ob_start();
 ?>
-
-<?php if (isset($info['aviso'])): ?>
-    <b><span style="color: red;">
-            <?php echo $info['aviso'] ?>
-        </span></b>
-<?php endif; ?>
-
-
-<br />
 <form name="formBuscarUsuario" action="index.php?ctl=BuscarUsuario" method="POST" class="d-flex justify-content-center">
     <div id="form">
         <div id="title" class="d-flex justify-content-center">

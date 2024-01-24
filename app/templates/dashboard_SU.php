@@ -55,9 +55,9 @@ if ($_SESSION["Tipo"] != "SU") {
 </nav>
 
 <?php 
-if(isset($info['aviso'])){
+if(isset($_SESSION["aviso"]) && !($_SESSION["aviso"]=="")){
     echo '<div class="alert alert-info" role="alert">';
-    echo $info['aviso'];
+    echo $_SESSION["aviso"];
     echo'</div>';
 }
 ?>

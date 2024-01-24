@@ -13,6 +13,7 @@ $map = array(
     'iniciar' => array('controller' =>'Controller', 'action' => 'iniciar'),
     'error' => array('controller' =>'Controller', 'action' => 'error'),
     'salir' => array('controller' =>'Controller', 'action' => 'salir'),  
+    'ModificarTicket' => array('controller' =>'Controller', 'action' => 'ModificarTicket'),
     'NuevoUsuario' => array('controller' =>'Controller', 'action' => 'NuevoUsuario'),
     'NuevoGrupo' => array('controller' =>'Controller', 'action' => 'NuevoGrupo'),
     'BuscarUsuario' => array('controller' =>'Controller', 'action' => 'BuscarUsuario'),

@@ -15,7 +15,7 @@ class Model extends PDO
         $this->conexion->exec("set names utf8");
         $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    public function insertarUsuario($nombre,$apellidos, $correo,$tipo)
+    public function insertarUsuario($nombre, $apellidos, $correo, $tipo)
     {
         $consulta = "insert into usuarios (Correo, Nombre, Apellidos,Tipo) values (?, ?, ?,?)";
         $result = $this->conexion->prepare($consulta);
@@ -48,6 +48,13 @@ class Model extends PDO
         $result = $this->conexion->query($consulta);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function CompruebaTecnicoID($Id)
+    {
+        $consulta = "SELECT * FROM usuarios where Id = '$Id' and Tipo='U'";
+        $result = $this->conexion->query($consulta);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function CompruebaGrupoID($Id)
     {
         $consulta = "SELECT * FROM grupos where Id = '$Id'";
@@ -78,6 +85,12 @@ class Model extends PDO
         $result = $this->conexion->query($consulta);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function CompruebaEstado($Cod)
+    {
+        $consulta = "SELECT * FROM estados where Estado='0' and Codigo='$Cod'";
+        $result = $this->conexion->query($consulta);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function DameUsuarioId($correo)
     {
         $consulta = "SELECT Id FROM usuarios where Correo='$correo'";
@@ -88,7 +101,14 @@ class Model extends PDO
 
     public function BuscarTickets($condicion)
     {
-        $consulta = "SELECT * FROM tickets where $condicion";
+        $consulta = "SELECT * FROM tickets where $condicion Activo='1'";
+        $result = $this->conexion->query($consulta);
+        $x = $result->fetchAll(PDO::FETCH_ASSOC);
+        return $x;
+    }
+    public function BuscarTicketId($Id)
+    {
+        $consulta = "SELECT * FROM tickets where Id='$Id'";
         $result = $this->conexion->query($consulta);
         $x = $result->fetchAll(PDO::FETCH_ASSOC);
         return $x;
@@ -109,7 +129,7 @@ class Model extends PDO
         $result = $this->conexion->query($consulta);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function CambiarPass($id_user,$Pass)
+    public function CambiarPass($id_user, $Pass)
     {
         $consulta = "UPDATE usuarios set Contraseña = ? where Id = ?";
         $result = $this->conexion->prepare($consulta);
@@ -119,7 +139,7 @@ class Model extends PDO
         return $result;
     }
 
-    public function ModificarUsuario($id,$nombre,$apellidos, $correo,$tipo,$grupo,$estado)
+    public function ModificarUsuario($id, $nombre, $apellidos, $correo, $tipo, $grupo, $estado)
     {
         $consulta = "UPDATE usuarios SET  Correo= ? , Nombre= ? , Apellidos= ? , Tipo= ?  ,Grupo= ?  ,Estado= ?   WHERE Id = ? ";
         $result = $this->conexion->prepare($consulta);
@@ -133,7 +153,7 @@ class Model extends PDO
         $result->execute();
         return $result;
     }
-    public function CrearTicket($Tipo,$Resumen,$Descripcion,$Estado,$FU,$FA,$Gupo,$solicitante,$prioridad)
+    public function CrearTicket($Tipo, $Resumen, $Descripcion, $Estado, $FU, $FA, $Gupo, $solicitante, $prioridad)
     {
         $consulta = "insert into tickets (Tipo, Resumen,Descripcion,Estado,Prioridad,Fecha_Ultima_actualizacion,Fecha_Apertura,Grupo_resolutor,Solicitante) values (?,?,?,?,?,?,?,?,?)";
         $result = $this->conexion->prepare($consulta);
@@ -149,6 +169,42 @@ class Model extends PDO
         $result->execute();
         return $result;
     }
+
+    public function ModificarTicket($Tipo, $Resumen, $Descripcion, $Estado, $FU, $FC, $Gupo, $solicitante, $prioridad, $Acignatario, $Id)
+    {
+        if ($Acignatario == "") {
+            $consulta = "UPDATE tickets set Tipo= ? ,Resumen= ? ,Descripcion= ? ,Estado= ? ,Prioridad= ? ,Fecha_Ultima_actualizacion= ? ,Fecha_Cierre= ? ,Grupo_resolutor= ? ,Solicitante= ? where Id= ? ";
+            $result = $this->conexion->prepare($consulta);
+            $result->bindParam(1, $Tipo);
+            $result->bindParam(2, $Resumen);
+            $result->bindParam(3, $Descripcion);
+            $result->bindParam(4, $Estado);
+            $result->bindParam(5, $prioridad);
+            $result->bindParam(6, $FU);
+            $result->bindParam(7, $FC);
+            $result->bindParam(8, $Gupo);
+            $result->bindParam(9, $solicitante);
+            $result->bindParam(10, $Id);
+        } else {
+            $consulta = "UPDATE tickets set Tipo= ? ,Resumen= ? ,Descripcion= ? ,Estado= ? ,Prioridad= ? ,Fecha_Ultima_actualizacion= ? ,Fecha_Cierre= ? ,Grupo_resolutor= ? ,Solicitante= ? ,Asignatario= ? where Id= ? ";
+            $result = $this->conexion->prepare($consulta);
+            $result->bindParam(1, $Tipo);
+            $result->bindParam(2, $Resumen);
+            $result->bindParam(3, $Descripcion);
+            $result->bindParam(4, $Estado);
+            $result->bindParam(5, $prioridad);
+            $result->bindParam(6, $FU);
+            $result->bindParam(7, $FC);
+            $result->bindParam(8, $Gupo);
+            $result->bindParam(9, $solicitante);
+            $result->bindParam(10, $Acignatario);
+            $result->bindParam(11, $Id);
+        }
+
+        $result->execute();
+        return $result;
+    }
+
 
 
 }

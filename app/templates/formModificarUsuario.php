@@ -1,14 +1,5 @@
 <?php ob_start();
 ?>
-
-<?php if (isset($info['aviso'])): ?>
-    <b><span style="color: red;">
-            <?php echo $info['aviso'] ?>
-        </span></b>
-<?php endif; ?>
-
-
-<br />
 <form name="formModificarUsuario" action="index.php?ctl=ModificarUsuario" method="POST"
     class="d-flex justify-content-center">
     <div id="form">

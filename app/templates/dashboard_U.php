@@ -72,9 +72,12 @@ if ($_SESSION["Tipo"] != "U") {
         </div>
     </div>
 </nav>
-<div class="alert alert-info" role="alert">
-Hola Querido Usuario
-</div>
-
+<?php 
+if(isset($_SESSION["aviso"]) && !($_SESSION["aviso"]=="")){
+    echo '<div class="alert alert-info" role="alert">';
+    echo $_SESSION["aviso"];
+    echo'</div>';
+}
+?>
 <?php $contenido = ob_get_clean() ?>
 <?php include 'layout.php' ?>

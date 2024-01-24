@@ -78,6 +78,7 @@ class Controller
     }
     public function NuevoUsuario()
     {
+        $_SESSION["aviso"] = "";
 
         $info = array(
             'nombre' => '',
@@ -126,9 +127,9 @@ class Controller
 
 
                     } else {
-                        $info['aviso'] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
+                        $_SESSION["aviso"] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
                     }
-
+                    $_SESSION["aviso"] = "Usuario Creado";
                     header('Location: index.php?ctl=dashboard_SU');
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -145,7 +146,7 @@ class Controller
 
     public function NuevoGrupo()
     {
-
+        $_SESSION["aviso"] = "";
         $info = array(
             'nombre' => ''
         );
@@ -174,9 +175,9 @@ class Controller
                     if ($m->insertarGrupo($nombre)) {
 
                     } else {
-                        $info['aviso'] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
+                        $_SESSION["aviso"] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
                     }
-
+                    $_SESSION["aviso"] = "Grupo Creado";
                     header('Location: index.php?ctl=dashboard_SU');
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -192,7 +193,7 @@ class Controller
 
     public function BuscarUsuario()
     {
-
+        $_SESSION["aviso"] = "";
         $info = array(
             'email' => ''
         );
@@ -237,6 +238,7 @@ class Controller
     }
     public function ModificarUsuario()
     {
+        $_SESSION["aviso"] = "";
         $m = new Model();
         $grupos = $m->Damegrupos();
 
@@ -282,6 +284,7 @@ class Controller
                 if ($m->CompruebaUsuario($email)) {
                     $error["email"] = "Correo ya utilizado";
                 }
+
             }
             cTipo($tipo, "tipo", $error);
             if (!in_array($grup, $grupos[0])) {
@@ -297,9 +300,10 @@ class Controller
                 try {
                     $m = new Model();
                     if (!$m->ModificarUsuario($_SESSION["ID_UMOD"], $nombre, $apellidos, $email, $tipo, $grup, $estado)) {
-                        $info['aviso'] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
+                        $_SESSION["aviso"] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
                     }
 
+                    $_SESSION["aviso"] = "Usuario Modificado";
                     header('Location: index.php?ctl=dashboard_SU');
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -318,6 +322,7 @@ class Controller
 
     public function NuevoTicket()
     {
+        $_SESSION["aviso"] = "";
         $m = new Model();
         $grupos = $m->Damegrupos();
         $usuarios = $m->DameUsuarios();
@@ -390,11 +395,13 @@ class Controller
                 try {
                     $m = new Model();
 
-                    if (!$m->CrearTicket('INC', $resumen, $descripcion, $estado, $F_modificacion, $F_apertura, $Grupo, $solicitante, $prioridad)) {
-                        $info['aviso'] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
-                    }
+                    if (!$m->CrearTicket($tipo, $resumen, $descripcion, $estado, $F_modificacion, $F_apertura, $Grupo, $solicitante, $prioridad)) {
+                        $_SESSION["aviso"] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
 
-                    header('Location: index.php?ctl=dashboard_SU');
+                    } else {
+                        $_SESSION["aviso"] = "Ticket Creado";
+                        header('Location: index.php?ctl=dashboard_SU');
+                    }
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
                     header('Location: index.php?ctl=error');
@@ -409,12 +416,14 @@ class Controller
 
     public function BuscarTicket()
     {
+        $_SESSION["aviso"] = "";
         $m = new Model();
         $grupos = $m->Damegrupos();
         $usuarios = $m->DameUsuarios();
         $usuariosCU = $m->DameCU();
         $Estados = $m->DameEstados();
-
+        $condicion = "";
+        $error = array();
 
 
         $info = array(
@@ -425,7 +434,6 @@ class Controller
             'F_actual' => date('Y-m-d H:i:s')
         );
 
-        $campos = array();
 
         if (isset($_POST['enviar'])) {
 
@@ -435,7 +443,7 @@ class Controller
             $solicitante = recoge('solicitante');
             $asignatario = recoge('asignatario');
             $Grupo = recoge('Grupo');
-            $estado = 'EG';
+            $estado = recoge('estado');
             $resumen = recoge('resumen');
             $descripcion = recoge('descripcion');
             $F_modificacion = $info['F_actual'];
@@ -462,33 +470,46 @@ class Controller
             //validación de campos
             $m = new Model();
             if (($tipo == 'INC' || $tipo == 'SOL')) {
-                $campos["Tipo"] = $tipo;
+                $condicion = $condicion . "Tipo = '" . $tipo . "' AND ";
             }
-            /*
-            if (!$m->CompruebaUsuarioID($solicitante)) {
-                $error["solicitante"] = "Solicitante inexistente";
+
+            if ($m->CompruebaUsuarioID($solicitante)) {
+
+                $condicion = $condicion . "Solicitante = '" . $solicitante . "' AND ";
             }
-            if (!$m->CompruebaGrupoID($Grupo)) {
-                $error["Grupo"] = "Grupo inexistente";
+            if ($m->CompruebaUsuarioID($asignatario)) {
+
+                $condicion = $condicion . "Asignatario = '" . $asignatario . "' AND ";
             }
-            if (!($prioridad == 1 || $prioridad == 2 || $prioridad == 3 || $prioridad == 4)) {
-                $error["prioridad"] = "Prioridad Incorrecta";
+
+            if ($m->CompruebaGrupoID($Grupo)) {
+                $condicion = $condicion . "Grupo_resolutor = '" . $Grupo . "' AND ";
             }
+
+
+            if ($m->CompruebaEstado($estado)) {
+                $condicion = $condicion . "Estado = '" . $estado . "' AND ";
+            }
+
+
+            if ($prioridad == 1 || $prioridad == 2 || $prioridad == 3 || $prioridad == 4) {
+                $condicion = $condicion . "Prioridad = '" . $prioridad . "' AND ";
+            }
+
 
             cTexto($resumen, 'resumen', $error, 500, 1);
             cTexto($descripcion, 'descripcion', $error, 2500, 1);
-            */
+            if (!isset($error['resumen'])) {
+                $condicion = $condicion . "Resumen = '" . $resumen . "' AND ";
+            }
+            if (!isset($error['descripcion'])) {
+                $condicion = $condicion . "Descripcion = '" . $descripcion . "' AND ";
+            }
 
-            //inserción en BBDD
+            //Consulta en BBDD
 
 
             $m = new Model();
-            if(isset($campos["Tipo"])){
-                $condicion="Tipo = '".$campos["Tipo"]."'";
-            }
-            
-
-            
             $_SESSION["tickets"] = $m->BuscarTickets($condicion);
 
 
@@ -503,13 +524,14 @@ class Controller
 
     public function ListaTickets()
     {
-        if(isset($_SESSION["tickets"])){
+        $_SESSION["aviso"] = "";
+        if (isset($_SESSION["tickets"])) {
             $info['tickets'] = $_SESSION["tickets"];
             //$info['tickets'] = 'Hola';
-        }else{
+        } else {
             $info['tickets'] = 'adios';
         }
-        
+
         require __DIR__ . '/templates/listaTickets.php';
     }
 
@@ -524,10 +546,9 @@ class Controller
     {
 
         try {
-            $info = array(
-                'aviso' => 'HOLA'
-            );
-
+            if (!isset($_SESSION["aviso"])) {
+                $_SESSION["aviso"] = "Bienvenido estimado cliente";
+            }
 
         } catch (Exception $e) {
             error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -543,9 +564,10 @@ class Controller
     {
 
         try {
-            $info = array(
-                'aviso' => 'HOLA'
-            );
+            if (!isset($_SESSION["aviso"])) {
+                $_SESSION["aviso"] = "Bienvenido estimado cliente";
+            }
+
 
 
         } catch (Exception $e) {
@@ -562,10 +584,9 @@ class Controller
     {
 
         try {
-            $info = array(
-                'aviso' => 'Bienvenido Administrador'
-            );
-
+            if (!isset($_SESSION["aviso"])) {
+                $_SESSION["aviso"] = "Bienvenido estimado Administrador";
+            }
 
         } catch (Exception $e) {
             error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -580,7 +601,7 @@ class Controller
 
     public function NuevaPass()
     {
-
+        $_SESSION["aviso"] = "";
         try {
 
             if (isset($_GET['Token'])) {
@@ -598,7 +619,7 @@ class Controller
                         $_SESSION["ID"] = $userID;
                         header('Location: index.php?ctl=NuevaPass');
                     } else {
-                        $info['aviso'] = "Tocken expirado";
+                        $_SESSION["aviso"] = "Tocken expirado";
 
                     }
                 } else {
@@ -645,7 +666,7 @@ class Controller
 
     public function solicitar()
     {
-
+        $_SESSION["aviso"] = "";
 
         $error = array();
         if (isset($_POST['enviar'])) {
@@ -686,6 +707,125 @@ class Controller
         }
 
         require __DIR__ . '/templates/formSolicitarPass.php';
+    }
+    public function ModificarTicket()
+    {
+
+
+        $_SESSION["aviso"] = "";
+
+        if (isset($_GET['Id'])) {
+            $Id_ticket = recoge('Id');
+            $m = new Model();
+            $infoTicket = $m->BuscarTicketId($Id_ticket);
+            $_SESSION["infoTicket"] = $infoTicket;
+            header('Location: index.php?ctl=ModificarTicket');
+        }
+
+        $m = new Model();
+        $grupos = $m->Damegrupos();
+        $usuarios = $m->DameUsuarios();
+        $usuariosCU = $m->DameCU();
+        $Estados = $m->DameEstados();
+
+
+
+        $info = array(
+            'infoTicket' => $_SESSION["infoTicket"],
+            'grupos' => $grupos,
+            'usuarios' => $usuarios,
+            'usuariosCU' => $usuariosCU,
+            'estados' => $Estados,
+            'F_actual' => date('Y-m-d H:i:s')
+        );
+
+        $error = array();
+
+        if (isset($_POST['enviar'])) {
+            $tipo = recoge('tipo');
+            $prioridad = recoge('prioridad');
+            $solicitante = recoge('solicitante');
+            $asignatario = recoge('asignatario');
+            $Grupo = recoge('Grupo');
+            $estado = recoge('estado');
+            $resumen = recoge('resumen');
+            $descripcion = recoge('descripcion');
+            $F_modificacion = $info['F_actual'];
+
+
+            $info = array(
+                'tipo' => $tipo,
+                'prioridad' => $prioridad,
+                'solicitante' => $solicitante,
+                'asignatario' => $asignatario,
+                'Grupo' => $Grupo,
+                'estado' => $estado,
+                'resumen' => $resumen,
+                'descripcion' => $descripcion,
+                'grupos' => $grupos,
+                'usuarios' => $usuarios,
+                'usuariosCU' => $usuariosCU,
+                'estados' => $Estados,
+                'F_actual' => date('Y-m-d H:i:s')
+            );
+
+
+            //validación de campos
+            $m = new Model();
+            if (!($tipo == 'INC' || $tipo == 'SOL')) {
+                $error["tipo"] = "tipo inexistente";
+            }
+            if (!$m->CompruebaUsuarioID($solicitante)) {
+                $error["solicitante"] = "Solicitante inexistente";
+            }
+            if(!$asignatario==null){
+                if (!$m->CompruebaTecnicoID($asignatario)) {
+                    $error["asignatario"] = "Asignatario inexistente";
+                }
+            }
+            
+
+            if (!$m->CompruebaGrupoID($Grupo)) {
+                $error["Grupo"] = "Grupo inexistente";
+            }
+
+            if (!($prioridad == 1 || $prioridad == 2 || $prioridad == 3 || $prioridad == 4)) {
+                $error["prioridad"] = "Prioridad Incorrecta";
+            }
+
+            cTexto($resumen, 'resumen', $error, 500, 1);
+            cTexto($descripcion, 'descripcion', $error, 2500, 1);
+
+
+            //inserción en BBDD
+            if (empty($error)) {
+                try {
+                    if ($estado == "C") {
+                        $F_cierre = $info['F_actual'];
+                    } else {
+                        $F_cierre = null;
+                    }
+
+                    $m = new Model();
+
+                    if (!$m->ModificarTicket($tipo, $resumen, $descripcion, $estado, $F_modificacion,$F_cierre, $Grupo, $solicitante, $prioridad,$asignatario,$_SESSION["infoTicket"][0]['Id'])) {
+                   
+                        $_SESSION["aviso"] = 'No se ha podido completar el registro. Revisa el formulario y vuelve a intentarlo.';
+
+                    } else {
+                        $_SESSION["aviso"] = "Ticket ".$_SESSION["infoTicket"][0]['Id']." Modificado";
+                        header('Location: index.php?ctl=dashboard_SU');
+                    }
+                } catch (Exception $e) {
+                    error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
+                    header('Location: index.php?ctl=error');
+                } catch (Error $e) {
+                    error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logError.txt");
+                    header('Location: index.php?ctl=error');
+                }
+            }
+        }
+        require __DIR__ . '/templates/formModificarTicket.php';
     }
 
 
