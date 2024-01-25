@@ -1,0 +1,114 @@
+Listado de rutas de carpetas para el volumen Pedro_Jose
+El número de serie del volumen es D419-2F7F
+G:.
++---app
+¦   +---libs
+¦   +---PHPMailer
+¦   ¦   +---language
+¦   ¦   +---src
+¦   +---templates
++---web
+    +---css
+    ¦   +---bootstrap-5.2.3
+    ¦       +---.github
+    ¦       ¦   +---ISSUE_TEMPLATE
+    ¦       ¦   +---workflows
+    ¦       +---build
+    ¦       +---dist
+    ¦       ¦   +---css
+    ¦       ¦   +---js
+    ¦       +---js
+    ¦       ¦   +---dist
+    ¦       ¦   ¦   +---dom
+    ¦       ¦   ¦   +---util
+    ¦       ¦   +---src
+    ¦       ¦   ¦   +---dom
+    ¦       ¦   ¦   +---util
+    ¦       ¦   +---tests
+    ¦       ¦       +---helpers
+    ¦       ¦       +---integration
+    ¦       ¦       +---unit
+    ¦       ¦       ¦   +---dom
+    ¦       ¦       ¦   +---util
+    ¦       ¦       +---visual
+    ¦       +---nuget
+    ¦       +---scss
+    ¦       ¦   +---forms
+    ¦       ¦   +---helpers
+    ¦       ¦   +---mixins
+    ¦       ¦   +---utilities
+    ¦       ¦   +---vendor
+    ¦       +---site
+    ¦           +---assets
+    ¦           ¦   +---js
+    ¦           ¦   ¦   +---vendor
+    ¦           ¦   +---scss
+    ¦           +---content
+    ¦           ¦   +---docs
+    ¦           ¦       +---5.2
+    ¦           ¦           +---about
+    ¦           ¦           +---components
+    ¦           ¦           +---content
+    ¦           ¦           +---customize
+    ¦           ¦           +---examples
+    ¦           ¦           ¦   +---album
+    ¦           ¦           ¦   +---album-rtl
+    ¦           ¦           ¦   +---blog
+    ¦           ¦           ¦   +---blog-rtl
+    ¦           ¦           ¦   +---carousel
+    ¦           ¦           ¦   +---carousel-rtl
+    ¦           ¦           ¦   +---cheatsheet
+    ¦           ¦           ¦   +---cheatsheet-rtl
+    ¦           ¦           ¦   +---checkout
+    ¦           ¦           ¦   +---checkout-rtl
+    ¦           ¦           ¦   +---cover
+    ¦           ¦           ¦   +---dashboard
+    ¦           ¦           ¦   +---dashboard-rtl
+    ¦           ¦           ¦   +---dropdowns
+    ¦           ¦           ¦   +---features
+    ¦           ¦           ¦   +---footers
+    ¦           ¦           ¦   +---grid
+    ¦           ¦           ¦   +---headers
+    ¦           ¦           ¦   +---heroes
+    ¦           ¦           ¦   +---jumbotron
+    ¦           ¦           ¦   +---list-groups
+    ¦           ¦           ¦   +---masonry
+    ¦           ¦           ¦   +---modals
+    ¦           ¦           ¦   +---navbar-bottom
+    ¦           ¦           ¦   +---navbar-fixed
+    ¦           ¦           ¦   +---navbar-static
+    ¦           ¦           ¦   +---navbars
+    ¦           ¦           ¦   +---navbars-offcanvas
+    ¦           ¦           ¦   +---offcanvas-navbar
+    ¦           ¦           ¦   +---pricing
+    ¦           ¦           ¦   +---product
+    ¦           ¦           ¦   +---sidebars
+    ¦           ¦           ¦   +---sign-in
+    ¦           ¦           ¦   +---starter-template
+    ¦           ¦           ¦   +---sticky-footer
+    ¦           ¦           ¦   +---sticky-footer-navbar
+    ¦           ¦           +---extend
+    ¦           ¦           +---forms
+    ¦           ¦           +---getting-started
+    ¦           ¦           +---helpers
+    ¦           ¦           +---layout
+    ¦           ¦           +---utilities
+    ¦           +---data
+    ¦           +---layouts
+    ¦           ¦   +---partials
+    ¦           ¦   ¦   +---home
+    ¦           ¦   ¦   +---icons
+    ¦           ¦   +---shortcodes
+    ¦           ¦   +---_default
+    ¦           ¦       +---_markup
+    ¦           +---static
+    ¦               +---docs
+    ¦                   +---5.2
+    ¦                       +---assets
+    ¦                           +---brand
+    ¦                           +---img
+    ¦                           ¦   +---examples
+    ¦                           ¦   +---favicons
+    ¦                           ¦   +---guides
+    ¦                           +---js
+    +---img

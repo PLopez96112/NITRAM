@@ -42,6 +42,7 @@ class Controller
                             $_SESSION["correo"] = $email;
                             $_SESSION["ID"] = $usuario[0]["Id"];
                             $_SESSION["Tipo"] = $usuario[0]["Tipo"];
+                            $_SESSION["Grupo"] = $usuario[0]["Grupo"];
 
                             switch ($usuario[0]["Tipo"]) {
                                 case "C":
@@ -287,7 +288,7 @@ class Controller
 
             }
             cTipo($tipo, "tipo", $error);
-            if (!in_array($grup, $grupos[0])) {
+            if (!$m->CompruebaGrupoID($grup)) {
                 $error["Grupo"] = "Grupo incorrecto";
             }
 
@@ -400,7 +401,18 @@ class Controller
 
                     } else {
                         $_SESSION["aviso"] = "Ticket Creado";
-                        header('Location: index.php?ctl=dashboard_SU');
+                        switch ($_SESSION["Tipo"]) {
+                            case "C":
+                                header('Location: index.php?ctl=dashboard_C');
+                                break;
+                            case "U":
+                                header('Location: index.php?ctl=dashboard_U');
+                                break;
+                            case "SU":
+                                header('Location: index.php?ctl=dashboard_SU');
+                                break;
+                        }
+                        
                     }
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -547,8 +559,11 @@ class Controller
 
         try {
             if (!isset($_SESSION["aviso"])) {
-                $_SESSION["aviso"] = "Bienvenido estimado cliente";
+                $_SESSION["aviso"] = "Bienvenido estimado cliente ";
             }
+            $condicion="Solicitante = '".$_SESSION["ID"]."' AND";
+            $m = new Model();
+            $info['tickets']  = $m->BuscarTickets($condicion);
 
         } catch (Exception $e) {
             error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
@@ -558,16 +573,19 @@ class Controller
             header('Location: index.php?ctl=error');
         }
 
-        require __DIR__ . '/templates/dashboard_C.php';
+        require __DIR__ . '/templates/listaTickets.php';
     }
     public function dashboard_U()
     {
 
         try {
             if (!isset($_SESSION["aviso"])) {
-                $_SESSION["aviso"] = "Bienvenido estimado cliente";
+                $_SESSION["aviso"] = "Bienvenido estimado Usuario";
             }
-
+            //Consulta en BBDD
+            $condicion="Grupo_resolutor = '".$_SESSION["Grupo"]."' AND";
+            $m = new Model();
+            $info['tickets']  = $m->BuscarTickets($condicion);
 
 
         } catch (Exception $e) {
@@ -578,7 +596,7 @@ class Controller
             header('Location: index.php?ctl=error');
         }
 
-        require __DIR__ . '/templates/dashboard_U.php';
+        require __DIR__ . '/templates/listaTickets.php';
     }
     public function dashboard_SU()
     {
@@ -695,7 +713,17 @@ class Controller
                     enviar_pass($email, $token);
 
 
-                    header('Location: index.php?ctl=dashboard_SU');
+                    switch ($_SESSION["Tipo"]) {
+                        case "C":
+                            header('Location: index.php?ctl=dashboard_C');
+                            break;
+                        case "U":
+                            header('Location: index.php?ctl=dashboard_U');
+                            break;
+                        case "SU":
+                            header('Location: index.php?ctl=dashboard_SU');
+                            break;
+                    }
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");
                     header('Location: index.php?ctl=error');
@@ -814,7 +842,19 @@ class Controller
 
                     } else {
                         $_SESSION["aviso"] = "Ticket ".$_SESSION["infoTicket"][0]['Id']." Modificado";
-                        header('Location: index.php?ctl=dashboard_SU');
+
+                        
+                        switch ($_SESSION["Tipo"]) {
+                            case "C":
+                                header('Location: index.php?ctl=dashboard_C');
+                                break;
+                            case "U":
+                                header('Location: index.php?ctl=dashboard_U');
+                                break;
+                            case "SU":
+                                header('Location: index.php?ctl=dashboard_SU');
+                                break;
+                        }
                     }
                 } catch (Exception $e) {
                     error_log($e->getMessage() . microtime() . PHP_EOL, 3, "logExceptio.txt");

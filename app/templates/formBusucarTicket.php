@@ -1,15 +1,6 @@
 <?php ob_start();
 ?>
-
-<?php if (isset($info['aviso'])): ?>
-    <b><span style="color: red;">
-            <?php echo $info['aviso'] ?>
-        </span></b>
-<?php endif; ?>
-
-
-<br />
-<form name="formNuevoTicket" action="index.php?ctl=NuevoTicket" method="POST">
+<form name="formBuscarTicket" action="index.php?ctl=BuscarTicket" method="POST">
     <div id="form">
         <div class="row ms-1 mb-2 me-2">
             <div class="col-12 col-sm ms-2 me-2">
@@ -18,6 +9,7 @@
                 </div>
                 <div class="row ms-1 mb-2 me-2">
                     <select class="form-select col ms-2 me-2" name="tipo" id="tipo">
+                        <option value="null"></option>
                         <option value="INC">Incidente</option>
                         <option value="SOL">Solicitud</option>
                     </select>
@@ -38,6 +30,7 @@
                 </div>
                 <div class="row ms-1 mb-2 me-2">
                     <select class="form-select col ms-2 me-2" name="prioridad" id="prioridad">
+                        <option value="null"></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -53,13 +46,13 @@
                     } ?>
                 </div>
             </div>
+            
             <div class="col-12 col-sm ms-2 me-2">
                 <div class="row ms-1 mb-2 me-2">
                     <div class="col  ms-2 me-2"><label for="Fecha de Apertura">Fecha de Apertura</label></div>
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
-                    <input type="datetime" class="form-control col ms-2 me-2" name="F_apertura" id="F_apertura" disabled
-                        value="<?php echo $info['F_actual']; ?>">
+                    <input type="datetime" class="form-control col ms-2 me-2" name="F_apertura" id="F_apertura" placeholder="aaaa-mm-dd hh:mm:ss" disabled>
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
                     <?php if (isset($error['F_apertura'])) {
@@ -69,6 +62,7 @@
                     } ?>
                 </div>
             </div>
+            
         </div>
 
 
@@ -81,7 +75,9 @@
                     <div class="col  ms-2 me-2"><label for="Solicitante">Solicitante</label></div>
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
+                    
                     <?php echo '<select class="form-select col ms-2 me-2" name="solicitante" id="solicitante">';
+                         echo '<option value="null"></option>';
                     foreach ($info['usuariosCU'] as $fila) {
 
                         echo '<option value="' . $fila["Id"] . '">' . $fila["Nombre"] . " " . $fila["Apellidos"] . '</option>';
@@ -106,6 +102,7 @@
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
                     <?php echo '<select class="form-select col ms-2 me-2" name="Grupo" id="grupo">';
+                    echo '<option value="null"></option>';
                     foreach ($info['grupos'] as $fila) {
 
                         echo '<option value="' . $fila["Id"] . '">' . $fila["Nombre"] . '</option>';
@@ -128,12 +125,9 @@
                     <div class="col  ms-2 me-2"><label for="Estado">Estado</label></div>
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
-                    <?php echo '<select class="form-select col ms-2 me-2" name="estado" id="estado" disabled>';
+                    <?php echo '<select class="form-select col ms-2 me-2" name="estado" id="estado" >';
+                    echo '<option value="null"></option>';
                     foreach ($info['estados'] as $fila) {
-                        if ($fila["Codigo"] == "EG") {
-                            echo '<option value="' . $fila["Codigo"] . '" Selected>' . $fila["Nombre"] . '</option>';
-                        }
-
                         echo '<option value="' . $fila["Codigo"] . '">' . $fila["Nombre"] . '</option>';
                     }
                     echo '</select>';
@@ -149,14 +143,13 @@
 
                 </div>
             </div>
-            
             <div class="col-12 col-sm  ms-2 me-2">
                 <div class="row ms-1 mb-2 me-2 ">
                     <div class="col  ms-2 me-2"><label for="Estado">Asignatario</label></div>
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
                 
-                <?php echo '<select class="form-select col ms-2 me-2" name="asignatario" id="asignatario" disabled>';
+                <?php echo '<select class="form-select col ms-2 me-2" name="solicitante" id="solicitante">';
                         echo '<option value=""></option>';
                     foreach ($info['usuarios'] as $fila) {
 
@@ -216,8 +209,7 @@
                     <div class="col  ms-2 me-2"><label for="Descripcion">Ultima modificacion</label></div>
                 </div>
                 <div class="row ms-1 mb-2 me-2">
-                    <input type="datetime" class="form-control col ms-2 me-2" name="F_modificacion" id="F_modificacion"
-                        value="<?php echo $info['F_actual']; ?>" disabled>
+                    <input type="datetime" class="form-control col ms-2 me-2" name="F_modificacion" id="F_modificacion" placeholder="aaaa-mm-dd hh:mm:ss" disabled>
 
                 </div>
                 <div class="row ms-1 mb-2 me-2">
@@ -234,7 +226,7 @@
                     <div class="col  ms-2 me-2"><label for="Descripcion">Fecha de Cierre</label></div>
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
-                    <input type="datetime" class="form-control col ms-2 me-2" name="F_cierre" id="F_cierre" disabled>
+                    <input type="datetime" class="form-control col ms-2 me-2" name="F_cierre" id="F_cierre" placeholder="aaaa-mm-dd hh:mm:ss" disabled>
 
                 </div>
                 <div class="row ms-1 mb-2 me-2 ">
@@ -249,7 +241,7 @@
         </div>
         <div class="row ms-1 mb-2 me-2">
             <div class="cell2 d-flex justify-content-center"><input type="submit" class="btn btn-outline-success"
-                    name="enviar" id="enviar" value="Crear"></div>
+                    name="enviar" id="enviar" value="Buscar"></div>
         </div>
 
 
@@ -264,7 +256,5 @@ if($_SESSION["Tipo"] == "SU"){
 }else if($_SESSION["Tipo"] == "C"){
     include 'dashboard_C.php' ;
 }
-
-
 
 ?>

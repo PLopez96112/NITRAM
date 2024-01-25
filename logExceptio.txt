@@ -1,0 +1,2 @@
+SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'Asignatario' at row 10.45703500 1706121216
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Activo='1'' at line 10.41810100 1706168732
